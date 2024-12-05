@@ -51,7 +51,7 @@
                                 <label for="floatingTextarea">Quantity</label>
                             </div>
                             <div>
-                                <input class="form-control form-control-lg bg-dark mb-3" name="img" placeholder="Photo" id="formFileLg" type="file">
+                                <input class="form-control form-control-lg mb-3" name="img" placeholder="Photo" id="formFileLg" type="file">
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success m-2">Update</button>
