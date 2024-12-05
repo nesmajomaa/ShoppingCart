@@ -10,12 +10,6 @@ use App\Http\Controllers\Controller;
 
 class CartController extends Controller
 {
-    public function index()
-    {
-        $cart = Cart::select('*')->withTrashed()->paginate(10);
-        return view('admin.cart.index')->with('cart', $cart);
-    }
-
     public function removeItemFromCart($itemId){
         Cart::where('id', $itemId)->forceDelete();
     	return redirect()->back();
@@ -27,7 +21,7 @@ class CartController extends Controller
         if(!$cart){
             $cart = new Cart;
             $cart->product_id = $itemId;
-            $cart->user_id = 1;
+            $cart->user_id = Auth::guard('user')->user()->id;
             $cart->quantity = 1;
             $cart->total_price = 1 * $product->price;
             $status = $cart->save();

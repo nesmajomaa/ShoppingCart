@@ -41,7 +41,7 @@ Route::post('/user/login', [UserController::class, 'login']);
 Route::get('/user/login', [UserController::class, 'loginForm']);
 
 Route::post('/user/register', [UserController::class, 'register']);
-Route::get('/user/register/{email}', [UserController::class, 'registerForm'])->name('register');
+Route::get('/user/register', [UserController::class, 'registerForm'])->name('register');
 
 Route::middleware('auth.admin')->group(function () {
     Route::get('/admin', [ProductController::class, 'index']);

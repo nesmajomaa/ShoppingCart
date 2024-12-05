@@ -85,8 +85,6 @@ class UserController extends Controller
         return redirect()->intended('/'); 
     }
 
-    protected $userId = 1; // Replace with the specific user ID
-
     public function users()
     {
         $users = User::select('*')->withTrashed()->paginate(10);
@@ -104,12 +102,12 @@ class UserController extends Controller
 
     public function userIndex()
     {
-        $user = User::find(1);
+        $user = User::find(Auth::guard('user')->user()->id);
 
         $products = Product::select('*')->paginate(10);
         $categories = Category::select('*')->paginate(10);
 
-        $cartItems = Cart::with('cartProduct')->where('user_id' , 1)->get();
+        $cartItems = Cart::with('cartProduct')->where('user_id' , Auth::guard('user')->user()->id)->get();
 
         $totalPrice = $cartItems->sum('total_price');
         $lastCategory = Category::latest()->first();
@@ -118,20 +116,5 @@ class UserController extends Controller
         $favorites = $user->favorites()->with('favoriteProduct')->get();
 
         return view('user.userIndex')->with(['products' => $products, 'categories' => $categories, 'cartItems' => $cartItems, 'lastCategory' => $lastCategory, 'topSellingProducts' => $topSellingProducts, 'totalPrice' => $totalPrice, 'favorites' => $favorites]);
-    }
-
-    public function create()
-    {
-        return view('admin.favorite.create');
-    }
-
-    public function store(Request $request)
-    {
-        $favorite = new User;
-    	$favorite->user_id = $request->user_id;
-        $favorite->product_id = $request->product_id;
-        $favorite->status = $request->status;
-	    $status = $favorite->save();
-    	return redirect()->back()->with('status', $status);
     }
 }

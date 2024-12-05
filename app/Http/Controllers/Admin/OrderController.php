@@ -23,10 +23,10 @@ class OrderController extends Controller
     }
 
     public function checkout($totalPrice){
-        $cartItems = Cart::where('user_id', 1)->where('deleted_at', null)->get();
+        $cartItems = Cart::where('user_id', Auth::guard('user')->user()->id )->where('deleted_at', null)->get();
 
         $order = new Order;
-        $order->user_id = 1;
+        $order->user_id = Auth::guard('user')->user()->id;
         $order->status = 'pending';
         $order->last_price = $totalPrice;
         $order->save();
